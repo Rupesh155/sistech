@@ -206,14 +206,17 @@
    ctx.fillStyle='red'
 let snakeCells=[[0,0]]
 let cell=50
+let count=0;
 
 let direction='right'
 let gameOver=false
+
+let foodCell=generateRandomCell()
 let id=     setInterval(() => {
     draw()
     update()
     
-}, 100);
+}, 50);
 
 
 
@@ -242,13 +245,17 @@ function draw(){
 
     if(gameOver){
         clearInterval(id)
+        ctx.fillText('game over', 50,100)
         return
     }
     ctx.clearRect(0,0,1800,900)
     for(let i of snakeCells){
+        ctx.fillStyle='black'
         ctx.fillRect(i[0],i[1],cell,cell)
 
     }
+ctx.fillStyle='red'
+    ctx.fillRect(foodCell[0],foodCell[1],cell,cell)
     
 }
 function update(){
@@ -289,16 +296,38 @@ function update(){
     }
 
     snakeCells.push([newX,newY])
-    snakeCells.shift()
+
+
+    if(newX===foodCell[0]  && newY ===foodCell[1]){
+        foodCell=generateRandomCell()
+        count++
+    }
+    else{
+        snakeCells.shift()
+
+    }
+
+
+
+
+
 
 
 }
 
 
+function generateRandomCell() {
+  return [
+    Math.round((Math.random()*(1750))/cell)*cell,
+    Math.round((Math.random()*(850))/cell)*cell
+  ]
+}
 
 
-console.log(Math.random()* 1800,"X");
-console.log(Math.random()* 900,"Y");
+
+
+
+
 
 
 
